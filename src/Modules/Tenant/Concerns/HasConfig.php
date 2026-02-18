@@ -30,23 +30,5 @@ trait HasConfig
         Arr::set($data, "config.{$key}", $value);
         $this->config->data = $data;
         $this->config->save();
-    }
-
-    public function hasFeature(string $feature): bool
-    {
-        if (!$this->config) {
-            return false;
-        }
-
-        return (bool) Arr::get($this->config->data, "features.{$feature}", false);
-    }
-
-    public function getLimit(string $limit): int
-    {
-        if (!$this->config) {
-            return 0;
-        }
-
-        return (int) Arr::get($this->config->data, "limits.{$limit}", 0);
-    }
+    }  
 }   

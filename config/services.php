@@ -35,4 +35,12 @@ return [
         ],
     ],
 
+    'payments' => [
+        'zarinpal' => [
+            'merchantID' => env('MERCHANT_GRADEUP_KEY', 'merchant_id'),
+            'requestGate' => 'https://api.zarinpal.com/pg/v4/payment/request.json',
+            'verificationGate' => 'https://api.zarinpal.com/pg/v4/payment/verify.json',
+            'payUrl' => 'https://www.zarinpal.com/pg/StartPay/',
+        ],
+    ],
 ];

@@ -11,6 +11,7 @@ use Stancl\Tenancy\Database\Concerns\HasDomains;
 use Stancl\Tenancy\Database\Models\Tenant as BaseTenant;
 use Module\Tenant\Concerns\HasSecret;
 use Module\Tenant\Concerns\HasConfig;
+
 /**
  * Tenant Model:
  *
