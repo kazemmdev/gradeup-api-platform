@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Module\Tenant\Concerns;
 
-use Illuminate\Support\Arr;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Arr;
 use Module\Tenant\Models\TenantConfig;
 
 trait HasConfig
@@ -17,7 +17,7 @@ trait HasConfig
 
     public function getConfig(string $key, mixed $default = null): mixed
     {
-        if (!$this->config) {
+        if (! $this->config) {
             return $default;
         }
 
@@ -30,5 +30,5 @@ trait HasConfig
         Arr::set($data, "config.{$key}", $value);
         $this->config->data = $data;
         $this->config->save();
-    }  
-}   
+    }
+}

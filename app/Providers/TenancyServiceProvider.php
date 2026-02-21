@@ -23,8 +23,8 @@ class TenancyServiceProvider extends ServiceProvider
     {
         return [
             // Tenant events
-            Events\CreatingTenant::class      => [],
-            Events\TenantCreated::class       => [
+            Events\CreatingTenant::class => [],
+            Events\TenantCreated::class => [
                 JobPipeline::make([
                     Jobs\CreateDatabase::class,
                     Jobs\MigrateDatabase::class,
@@ -37,12 +37,12 @@ class TenancyServiceProvider extends ServiceProvider
                     return $event->tenant;
                 })->shouldBeQueued(true), // `false` by default, but you probably want to make this `true` for production.
             ],
-            Events\SavingTenant::class        => [],
-            Events\TenantSaved::class         => [],
-            Events\UpdatingTenant::class      => [],
-            Events\TenantUpdated::class       => [],
-            Events\DeletingTenant::class      => [],
-            Events\TenantDeleted::class       => [
+            Events\SavingTenant::class => [],
+            Events\TenantSaved::class => [],
+            Events\UpdatingTenant::class => [],
+            Events\TenantUpdated::class => [],
+            Events\DeletingTenant::class => [],
+            Events\TenantDeleted::class => [
                 JobPipeline::make([
                     Jobs\DeleteDatabase::class,
                 ])->send(function (Events\TenantDeleted $event) {
@@ -51,25 +51,25 @@ class TenancyServiceProvider extends ServiceProvider
             ],
 
             // Domain events
-            Events\CreatingDomain::class      => [],
-            Events\DomainCreated::class       => [],
-            Events\SavingDomain::class        => [],
-            Events\DomainSaved::class         => [],
-            Events\UpdatingDomain::class      => [],
-            Events\DomainUpdated::class       => [],
-            Events\DeletingDomain::class      => [],
-            Events\DomainDeleted::class       => [],
+            Events\CreatingDomain::class => [],
+            Events\DomainCreated::class => [],
+            Events\SavingDomain::class => [],
+            Events\DomainSaved::class => [],
+            Events\UpdatingDomain::class => [],
+            Events\DomainUpdated::class => [],
+            Events\DeletingDomain::class => [],
+            Events\DomainDeleted::class => [],
 
             // Database events
-            Events\DatabaseCreated::class     => [],
-            Events\DatabaseMigrated::class    => [],
-            Events\DatabaseSeeded::class      => [],
-            Events\DatabaseRolledBack::class  => [],
-            Events\DatabaseDeleted::class     => [],
+            Events\DatabaseCreated::class => [],
+            Events\DatabaseMigrated::class => [],
+            Events\DatabaseSeeded::class => [],
+            Events\DatabaseRolledBack::class => [],
+            Events\DatabaseDeleted::class => [],
 
             // Tenancy events
             Events\InitializingTenancy::class => [],
-            Events\TenancyInitialized::class  => [
+            Events\TenancyInitialized::class => [
                 function (Events\TenancyInitialized $event) {
                     // Eager load config and secret for tenant bootstrappers
                     $event->tenancy->tenant->load(['config', 'secret']);
@@ -78,17 +78,17 @@ class TenancyServiceProvider extends ServiceProvider
             ],
 
             Events\EndingTenancy::class => [],
-            Events\TenancyEnded::class  => [
+            Events\TenancyEnded::class => [
                 Listeners\RevertToCentralContext::class,
             ],
 
-            Events\BootstrappingTenancy::class                   => [],
-            Events\TenancyBootstrapped::class                    => [],
-            Events\RevertingToCentralContext::class              => [],
-            Events\RevertedToCentralContext::class               => [],
+            Events\BootstrappingTenancy::class => [],
+            Events\TenancyBootstrapped::class => [],
+            Events\RevertingToCentralContext::class => [],
+            Events\RevertedToCentralContext::class => [],
 
             // Resource syncing
-            Events\SyncedResourceSaved::class                    => [
+            Events\SyncedResourceSaved::class => [
                 Listeners\UpdateSyncedResource::class,
             ],
 
@@ -150,6 +150,4 @@ class TenancyServiceProvider extends ServiceProvider
             $this->app[Kernel::class]->prependToMiddlewarePriority($middleware);
         }
     }
-
-    
 }

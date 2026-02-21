@@ -1,6 +1,5 @@
 <?php
 
-
 // Auth Routes
 use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\LogoutController;

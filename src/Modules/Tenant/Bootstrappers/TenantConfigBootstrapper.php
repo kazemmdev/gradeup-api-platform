@@ -13,21 +13,21 @@ class TenantConfigBootstrapper implements TenancyBootstrapper
 {
     /**
      * Mapping of tenant config keys to Laravel config keys.
-     * 
+     *
      * Key: Tenant config path (without "config." prefix)
      * Value: Laravel config path
      */
     protected array $configMap = [
         'app.s3.url' => 'app.s3',
-        
+
         // Storage/Filesystem configs
         'filesystems.disks.s3.bucket' => 'filesystems.disks.s3.bucket',
         'filesystems.disks.s3.region' => 'filesystems.disks.s3.region',
         'filesystems.disks.s3.endpoint' => 'filesystems.disks.s3.endpoint',
-        
+
         // Payment configs
         'payment.merchant_key' => 'services.payments.zarinpal.merchantID',
-        
+
         // Google OAuth configs
         'services.google.redirect' => 'services.google.redirect',
     ];
@@ -40,7 +40,7 @@ class TenantConfigBootstrapper implements TenancyBootstrapper
     public function bootstrap(TenantContract $tenant): void
     {
         /** @var Tenant $tenant */
-        if (!$tenant->config) {
+        if (! $tenant->config) {
             return;
         }
 
@@ -52,7 +52,7 @@ class TenantConfigBootstrapper implements TenancyBootstrapper
             if ($value !== null) {
                 // Store original value for restoration
                 $this->originalConfig[$laravelKey] = Config::get($laravelKey);
-                
+
                 // Set the tenant-specific config
                 Config::set($laravelKey, $value);
             }
@@ -77,7 +77,7 @@ class TenantConfigBootstrapper implements TenancyBootstrapper
      */
     protected function injectSecrets(Tenant $tenant): void
     {
-        if (!$tenant->secret) {
+        if (! $tenant->secret) {
             return;
         }
 
@@ -96,4 +96,3 @@ class TenantConfigBootstrapper implements TenancyBootstrapper
         }
     }
 }
-

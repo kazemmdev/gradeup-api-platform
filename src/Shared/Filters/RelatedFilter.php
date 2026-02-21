@@ -3,7 +3,6 @@
 namespace Shared\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Str;
 use Spatie\QueryBuilder\Filters\Filter;
 
 class RelatedFilter implements Filter

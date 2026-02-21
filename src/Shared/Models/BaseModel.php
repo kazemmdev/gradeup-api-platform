@@ -15,9 +15,9 @@ abstract class BaseModel extends Model
 
     protected static function newFactory()
     {
-        $parts  = str(get_called_class())->explode('\\');
+        $parts = str(get_called_class())->explode('\\');
         $domain = $parts[1];
-        $model  = $parts->last();
+        $model = $parts->last();
 
         return app(
             "Database\\Factories\\{$domain}\\{$model}Factory"

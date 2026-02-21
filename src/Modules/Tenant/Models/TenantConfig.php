@@ -7,10 +7,9 @@ namespace Module\Tenant\Models;
 use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Module\Tenant\Models\Tenant;
 
 /**
- * @property int                  $id
+ * @property int $id
  * @property null|CarbonInterface $created_at
  * @property null|CarbonInterface $updated_at
  */

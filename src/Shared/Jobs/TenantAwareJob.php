@@ -29,7 +29,7 @@ abstract class TenantAwareJob implements ShouldQueue
     public function failed(Throwable $exception): void
     {
         $jobName = static::class;
-        
+
         Log::error("Job failed permanently: {$jobName}", [
             'tenant_id' => $this->tenant_id,
             'job' => $jobName,

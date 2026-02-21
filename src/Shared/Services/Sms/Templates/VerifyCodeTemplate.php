@@ -11,9 +11,8 @@ class VerifyCodeTemplate extends SmsTemplate implements SmsTemplateInterface
     public function build(array $args): string
     {
         $settings = app(AppSettings::class);
-        $appName =  $settings->app_name  ?? 'گریدآپ';
+        $appName = $settings->app_name ?? 'گریدآپ';
         $appUrl = $settings->app_url ?? 'https://gradeup.app';
-
 
         return sprintf(
             'کد تایید برنامه %s: 
