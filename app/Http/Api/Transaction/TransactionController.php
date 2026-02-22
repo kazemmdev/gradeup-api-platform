@@ -9,7 +9,7 @@ use Module\Payment\Models\Transaction;
 use Module\Payment\Actions\VerifyPaymentAction;
 use Module\Tenant\Models\Tenant;
 use Shared\Services\Payment\PaymentGatewayInterface;
-
+use Illuminate\Support\Facades\DB;
 
 class TransactionController extends Controller
 {
@@ -26,6 +26,15 @@ class TransactionController extends Controller
             return Transaction::query()->where('id', $transaction_id)->firstOrFail();
         });
 
-        return $this->success(VerifyPaymentAction::execute($transaction, $gateway));
+        VerifyPaymentAction::execute($transaction, $gateway);
+
+
+        $setting = tenancy()->run($tenant, function () {
+            return DB::table('settings')->where('name', 'app_url')->firstOrFail();
+        });
+
+        return $this->success([
+            'callback' => $setting->payload . '/checkout?id='.$transaction->uuid.'&program='.request('program'),
+        ]);
     }
 }
