@@ -21,9 +21,10 @@ class TransactionController extends Controller
     public function update($transaction_id, PaymentGatewayInterface $gateway)
     {
         $tenant = Tenant::query()->where('id', request('client_id'))->firstOrFail();
-        tenancy()->initialize($tenant);
 
-        $transaction = Transaction::query()->where('id', $transaction_id)->firstOrFail();
+        $transaction = tenancy()->run($tenant, function () use ($transaction_id) {
+            return Transaction::query()->where('id', $transaction_id)->firstOrFail();
+        });
 
         return $this->success(VerifyPaymentAction::execute($transaction, $gateway));
     }
