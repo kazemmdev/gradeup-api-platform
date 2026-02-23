@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Module\Payment\Jobs;
 
-use Module\Payment\Models\Transaction;
+use Illuminate\Support\Facades\Log;
 use Module\Payment\Actions\VerifyPaymentAction;
 use Module\Payment\Enums\PaymentStatus;
-use Illuminate\Support\Facades\Log;
+use Module\Payment\Models\Transaction;
 use Shared\Jobs\TenantAwareJob;
 use Shared\Services\Payment\ZarinpalPaymentGateway;
 
@@ -15,7 +15,7 @@ class VerifyPaymentsJob extends TenantAwareJob
 {
     public function handle(): void
     {
-        $payment = new ZarinpalPaymentGateway();
+        $gateway = new ZarinpalPaymentGateway();
 
         $transactions = Transaction::query()
             ->where('status', PaymentStatus::PENDING)
@@ -25,8 +25,10 @@ class VerifyPaymentsJob extends TenantAwareJob
 
         foreach ($transactions as $transaction) {
             try {
-                VerifyPaymentAction::execute($transaction, $payment);
+                $payment = VerifyPaymentAction::execute($transaction, $gateway);
+                $transaction->update(['ref_id' => $payment['refId'] ?? null, 'status' => PaymentStatus::VALID]);
             } catch (\Exception $e) {
+                $transaction->update(['status' => PaymentStatus::INVALID]);
                 Log::error($e->getMessage(), ['transaction' => $transaction]);
             }
         }
